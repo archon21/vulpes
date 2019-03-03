@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Textfield } from '../../sub-components';
-import {connect} from 'react-redux'
-import {alertInteraction, sendMessage} from '../../store'
+import { connect } from 'react-redux';
+import { alertInteraction, sendMessage } from '../../store';
 
 class ContactForm extends Component {
   state = {
@@ -29,32 +29,54 @@ class ContactForm extends Component {
       }
     });
     if (all) {
-      this.props.sendMessage(this.state)
-      this.setState({error: {}, sent: true})
+      this.props.sendMessage(this.state);
+      this.setState({ error: {}, sent: true });
     } else {
       this.setState({ error });
     }
   };
   render() {
     const { error, sent } = this.state;
-    return (
-      sent ?
+    return sent ? (
       <div className="flex column align-center minh-600px minw-325px">
         <h4 className="headline-4">Your Message has been Sent.</h4>
-
       </div>
-      :
+    ) : (
       <form className="flex column align-center" onSubmit={this.handleSubmit}>
         <div className="flex row align-center">
-        <button type="button" onClick={() => this.props.alertInteraction(false)} className="small-icon rounded material-icons">
-        cancel
-        </button>
-        <h4 className="headline-5 color-primary">How Can We Help?</h4>
+          <button
+            type="button"
+            onClick={() => this.props.alertInteraction(false)}
+            className="small-icon rounded material-icons"
+          >
+            cancel
+          </button>
+          <h4 className="headline-5 color-primary">How Can We Help?</h4>
         </div>
-        <Textfield placeholder="Name" error={error.name} name="name" dataHook={this.dataHook} />
-        <Textfield placeholder="Email" error={error.email} name="email" dataHook={this.dataHook} />
-        <Textfield placeholder="Phone" error={error.phone} name="phone" dataHook={this.dataHook} />
-        <Textfield placeholder="Subject" error={error.subject} name="subject" dataHook={this.dataHook} />
+        <Textfield
+          placeholder="Name"
+          error={error.name}
+          name="name"
+          dataHook={this.dataHook}
+        />
+        <Textfield
+          placeholder="Email"
+          error={error.email}
+          name="email"
+          dataHook={this.dataHook}
+        />
+        <Textfield
+          placeholder="Phone"
+          error={error.phone}
+          name="phone"
+          dataHook={this.dataHook}
+        />
+        <Textfield
+          placeholder="Subject"
+          error={error.subject}
+          name="subject"
+          dataHook={this.dataHook}
+        />
         <Textfield
           error={error.message}
           placeholder="Whats on your mind?"
@@ -71,8 +93,11 @@ class ContactForm extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  alertInteraction: () =>  dispatch(alertInteraction(false)),
+  alertInteraction: () => dispatch(alertInteraction(false)),
   sendMessage: message => dispatch(sendMessage(message))
-})
+});
 
-export default connect(null, mapDispatchToProps)(ContactForm)
+export default connect(
+  null,
+  mapDispatchToProps
+)(ContactForm);

@@ -17,8 +17,8 @@ class Textfield extends Component {
     this.setState({error: false})
   }
   render() {
-    const { value } = this.state;
-    const { name, required, type, placeholder, error} = this.props;
+
+    const {value, name, required, type, placeholder, error} = this.props;
     return (
       <div className="textfield-wrapper">
         <input
