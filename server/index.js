@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
+const cors = require('cors')
+
 
 const PORT = process.env.PORT || 8080;
 
@@ -11,6 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(morgan('dev'));
+app.use(cors());
 
 // app.use('/auth', require('./auth'))
 app.use('/api', require('./api'));

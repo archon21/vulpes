@@ -6,11 +6,9 @@ const NavHButton = props => {
     <div id="nav-icon1" onClick={() => toggleNavH()}>
       <span />
       <span />
-      <span />
     </div>
   ) : (
     <div id="nav-icon1" className="open" onClick={() => toggleNavH()}>
-      <span />
       <span />
       <span />
     </div>

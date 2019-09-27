@@ -4,7 +4,7 @@ class Animator extends Component {
 
   render() {
     const { inRef, children, scrolled, animation, maxWidth, maxHeight } = this.props;
-    console.log(inRef.current && inRef)
+
     return (
       <div
         style={{margin: '40px'}}

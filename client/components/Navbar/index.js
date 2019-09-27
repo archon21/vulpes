@@ -28,38 +28,50 @@ class Navbar extends Component {
   };
 
   selectLink = link => {
-    console.log(link);
     this.setState({ selectedLink: link });
   };
 
   render() {
     const { open, selectedLink } = this.state;
     return (
-      <nav id="nav-h" className="flex column black align-center">
-        <div className="nav-h__upper flex row align-center">
-          <NavHButton open={open} toggleNavH={this.toggleNavH} />
-          <Link to={{pathname: '/'}}>
-            <h1 className="headline-3 color-tirciary">Vulpes</h1>
-          </Link>
-        </div>
+      <nav
+        id="nav-h"
+        className={`${!open &&
+          'open'} flex column black align-center justify-center w-100`}
+      >
+        <div className="nav-h__upper flex row align-center" />
+        <NavHButton open={open} toggleNavH={this.toggleNavH} />
 
-        <div className={` ${!open && 'open'} nav-h__lower flex row wrap align-center justify-center nav-h__links `}>
+        <div
+          className={` ${!open &&
+            'open'} nav-h__lower flex  wrap align-center justify-center nav-h__links `}
+        >
           <Link
-            className={`headline-6 color-white p-5px ${selectedLink ===
-              'about' && 'selected'}`}
+            className={`headline-6 nav__link color-white p-5px ${selectedLink ===
+              'downloader' && 'selected'}`}
             to={{ pathname: '/' }}
             onClick={() => this.selectLink('about')}
           >
             DOWNLOADER
           </Link>
-
-          <h1
-            className="headline-6 color-white"
-            onClick={this.openContact}
+          <Link
+            className={`headline-6 nav__link color-white p-5px ${selectedLink ===
+              'player' && 'selected'}`}
+            to={{ pathname: '/player' }}
+            onClick={() => this.selectLink('player')}
           >
-            CONTACT
-          </h1>
+            PLAYER
+          </Link>
+          <Link
+            className={`headline-6 nav__link color-white p-5px ${selectedLink ===
+              'uploader' && 'selected'}`}
+            to={{ pathname: '/uploader' }}
+            onClick={() => this.selectLink('uploader')}
+          >
+            UPLOADER
+          </Link>
         </div>
+
       </nav>
     );
   }

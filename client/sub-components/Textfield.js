@@ -10,7 +10,7 @@ class Textfield extends Component {
     const { value, name } = event.target;
     this.setState({ value: value });
     this.props.dataHook({ name, value });
-    console.log(name, value);
+
   };
 
   removeError = () => {
@@ -18,17 +18,17 @@ class Textfield extends Component {
   }
   render() {
 
-    const {value, name, required, type, placeholder, error} = this.props;
+    const {value, maxWidth, name, required, type, placeholder, error} = this.props;
     return (
-      <div className="textfield-wrapper">
+      <div className={`flex column align-center textfield-wrapper w-100 ${maxWidth}`}>
         <input
           name={name}
           onChange={this.handleChange}
           // onClick={error && this.removeError}
-          className="textfield"
+          className="textfield w-90"
           value={value}
           type={type ? type : name}
-          multi
+
           required={required}
           placeholder={placeholder ? placeholder : name}
         />

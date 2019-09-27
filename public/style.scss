@@ -17,18 +17,15 @@
 @import './scss/skeleton.scss';
 @import './scss/normalize.scss';
 
-
 html {
   scroll-behavior: smooth;
 }
-
 
 body {
   padding: 0;
   font-family: sans-serif;
   margin: 0;
   overflow-x: hidden;
-
 }
 
 a {
@@ -205,9 +202,114 @@ button:focus {
   max-width: 50%;
 }
 
-
-.py-5px{
+.py-5px {
   padding: 0 5px;
+}
+
+.component {
+  margin: 8vh 0 0 0;
+}
+
+.library {
+  position: fixed;
+  height: 83vh;
+  width: 100vw;
+  left: 0;
+  overflow: scroll;
+  bottom: 10vh;
+  top: 8vh;
+}
+
+.library__playlists {
+  background: $color-primary;
+}
+
+.library__playlists__button {
+  background: transparent;
+  color: white;
+}
+
+.library__item {
+  width: 90%;
+
+  border-radius: 2px;
+  margin: 10px 0;
+  padding: 5px 5px;
+  min-height: 35px;
+  background: #333;
+  color: white;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.player {
+  position: fixed;
+  height: 92vh;
+  width: 100vw;
+  bottom: 0;
+  left: 0;
+  transition: 200ms;
+  z-index: 1;
+}
+
+.minimized {
+  transform: translateY(90%) !important;
+}
+
+.player__title {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  height: 10vh;
+  display: grid;
+  grid-template-columns: 80% 20%;
+}
+
+.player__top__pause {
+  background: transparent;
+  width: 50px;
+  height: 50px;
+  justify-self: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.player__image {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #333;
+}
+
+.player__controls {
+  position: absolute;
+  bottom: 0;
+  background: rgba(256, 256, 256, 0.3);
+  padding: 10px 0;
+}
+
+.player__button {
+  background: black;
+  border-radius: 999px;
+  width: 50px;
+  height: 50px;
+  color: red;
+  margin: 0 10px;
+}
+
+.player__button--filled i {
+  color: red;
+  background: transparent;
+}
+
+.player__button--empty i {
+  color: white;
+  background: transparent;
 }
 
 @media only screen and (max-width: 1100px) {
@@ -225,26 +327,24 @@ button:focus {
   .holding__second__child {
     width: 90%;
   }
-
 }
 @media only screen and (max-width: 800px) {
+  body #footer-container {
+    height: auto;
+    flex-direction: column;
+  }
 
-body #footer-container {
-  height: auto;
-  flex-direction: column;
-}
-
-body #footer-names-left {
-  position: relative;
-  text-align: center;
-  margin-top: 0;
-}
-body #footer-names-right {
-  position: relative;
-  text-align: center;
-  margin-top: 0;
-}
-#footer-container__inner {
-  flex-direction: column;
+  body #footer-names-left {
+    position: relative;
+    text-align: center;
+    margin-top: 0;
+  }
+  body #footer-names-right {
+    position: relative;
+    text-align: center;
+    margin-top: 0;
+  }
+  #footer-container__inner {
+    flex-direction: column;
   }
 }

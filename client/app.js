@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 import { Navbar, Footer } from './components';
 import Routes from './routes';
-import { alertInteraction } from './store';
-import { Alert, Loader, Fab } from './sub-components';
+import { alertInteraction, auth } from './store';
+import { Alert, Loader } from './sub-components';
+import { Auth } from './utilities/firebase';
 
 // const firestore = firebase.firestore();
 
@@ -13,31 +14,24 @@ class App extends Component {
     mounted: false
   };
   async componentDidMount() {
+    this.unsubscribe = await Auth.onAuthStateChanged(async user => {
+      if (user) {
+        await this.props.auth(user, true);
+        this.setState({ mounted: true });
+      } else {
+        this.setState({ mounted: true });
+      }
+    });
+  }
 
-    this.setState({ mounted: true });
-    console.log(this.props.menu);
+  componentWillUnmount() {
+    this.unsubscribe();
   }
   render() {
     const { mounted } = this.state;
     const { alertStatus, alertTemplate } = this.props;
     return mounted ? (
       <div>
-        <Fab
-          options={[
-
-            {
-              name: 'cancel',
-              label: 'Clear All Songs',
-              action: () => this.props.history.push('/')
-            },
-            {
-              name: 'arrow_upward',
-              label: 'Back To Top',
-              action: () => window.scrollTo(0, 0)
-            }
-
-          ]}
-        />
         <Alert
           open={alertStatus}
           template={alertTemplate}
@@ -45,7 +39,6 @@ class App extends Component {
         />
         <Navbar />
         <Routes />
-        <Footer />
       </div>
     ) : (
       <Loader />
@@ -60,11 +53,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-
   alertInteraction: (status, template) =>
-    dispatch(alertInteraction(status, template))
+    dispatch(alertInteraction(status, template)),
+  auth: (user, inSession) => dispatch(auth(user, inSession))
 });
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App))
+)(App);

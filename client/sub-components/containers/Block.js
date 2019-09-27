@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 class Block extends Component {
   refHook = () => {
-    console.log(this.props.ref);
     return this[this.props.ref];
   };
   render() {
@@ -22,7 +21,7 @@ class Block extends Component {
       full
     } = this.props;
     const direction = column ? 'column' : 'row';
-    console.log(full)
+
     return (
     <div className={`
     block

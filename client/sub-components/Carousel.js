@@ -56,7 +56,6 @@ class Carousel extends Component {
   render() {
     const { focuseditem, inTransition, focusedIndex } = this.state;
     const { items, contain, primary, secondary, maxHeight, maxWidth, backgroundColor } = this.props;
-    console.log(focuseditem);
     return (
       <div
         className={`${inTransition} ${backgroundColor} ${maxWidth && maxWidth} flex column align-center p-20px w-90 `}

@@ -5,8 +5,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import util from './util';
 import init from './init';
+import firebase from './firebase'
 
-const reducer = combineReducers({ util, init });
+const reducer = combineReducers({ util, init, firebase });
 let middleware;
 process.env.NODE_ENV === 'development'
   ? (middleware = composeWithDevTools(
@@ -20,3 +21,4 @@ export default store;
 
 export * from './util';
 export * from './init';
+export * from './firebase'

@@ -16,7 +16,7 @@ class ContactForm extends Component {
   };
   dataHook = data => {
     this.setState({ [data.name]: data.value });
-    console.log(data);
+
   };
   handleSubmit = event => {
     event.preventDefault();
