@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
-import TextField from '@material-ui/core/TextField';
 import { auth } from '../store';
 import { connect } from 'react-redux';
+import { Textfield } from '../sub-components';
+import { WindoW, Block } from '../sub-components/containers';
+
 class Auth extends Component {
   state = {
     page: 'signin',
     email: '',
-    password: ''
+    password: '',
+    transitioning: false
   };
 
   componentDidMount = () => {
     const pathArr = this.props.location.pathname.split('/');
-    pathArr[pathArr.length - 1] === 'signin'
-      ? this.setState({ page: 'signin' })
-      : this.setState({ page: 'signup' });
+    pathArr[pathArr.length - 1] === 'signup' &&
+      this.setState({ page: 'signin' });
   };
 
   handleChange = event => {
@@ -27,55 +29,69 @@ class Auth extends Component {
     await this.props.auth({ email, password });
 
     if (this.props.user.uid) {
+      this.setState({ transform: true });
       history.push('/player');
     }
   };
 
   handleSignUp = () => {};
 
+  handleHover = () => {
+    const { transitioning } = this.state;
+    const newStatus = !transitioning;
+    this.setState({ transitioning: newStatus });
+  };
+
   render() {
-    const { page, email, password } = this.state;
-    return page === 'signin' ? (
-      <form
-        key={this.props.location.pathname}
-        onSubmit={this.handleSignIn}
-        className="component flex column align-center w-100 "
-      >
-        <TextField
-          placeholder="Email"
-          name="email"
-          required
-          variant="outlined"
-          onChange={this.handleChange}
-          className="footer__contact__textfield"
-          value={email}
-        />
-        <TextField
-          placeholder="Password"
-          name="password"
-          required
-          variant="outlined"
-          onChange={this.handleChange}
-          className="footer__contact__textfield"
-          value={password}
-        />
-        <button type="submit" className="button">
-          Sign In
-        </button>
-      </form>
-    ) : (
-      <div>
-        <TextField
-          placeholder="Password"
-          name="password"
-          required
-          variant="outlined"
-          onChange={this.handleChange}
-          className="footer__contact__textfield"
-          password
-          value={password}
-        />
-      </div>
+    const { page, email, password, transitioning } = this.state;
+
+    return (
+      <WindoW background="#333">
+        {page !== 'signup' ? (
+          <Block>
+            <form
+              key={this.props.location.pathname}
+              onSubmit={this.handleSignIn}
+              className="component flex column align-center w-100 "
+            >
+              <Textfield
+                placeholder="Email"
+                name="email"
+                required
+                variant="outlined"
+                handleChange={this.handleChange}
+                className="footer__contact__textfield"
+                value={email}
+              />
+              <Textfield
+                placeholder="Password"
+                name="password"
+                required
+                variant="outlined"
+                handleChange={this.handleChange}
+                className="footer__contact__textfield"
+                value={password}
+              />
+              <button type="submit" className="button">
+                Sign In
+              </button>
+            </form>
+          </Block>
+        ) : (
+          <div>
+            <Textfield
+              placeholder="Password"
+              name="password"
+              required
+              variant="outlined"
+              handleChange={this.handleChange}
+              className="footer__contact__textfield"
+              password
+              value={password}
+            />
+          </div>
+        )}
+      </WindoW>
     );
   }
 }
@@ -88,7 +104,4 @@ const mapStateToProps = state => ({
   user: state.firebase.user
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

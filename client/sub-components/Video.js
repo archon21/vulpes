@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Loader } from '../sub-components';
+import { Loader } from './Loaders';
+
 
 class Video extends Component {
   state = {

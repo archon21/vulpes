@@ -3,3 +3,10 @@ public/js
 public/css
 secrets.js
 dist
+storage.rules
+firebase-debug.log
+package-lock.json
+.firebase.src
+firestore.indexes.json
+.firebase
+vulpes-26185-firebase-adminsdk-p07x5-d5f7b629c6.json

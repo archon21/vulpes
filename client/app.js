@@ -4,7 +4,8 @@ import { withRouter } from 'react-router-dom';
 import { Navbar, Footer } from './components';
 import Routes from './routes';
 import { alertInteraction, auth } from './store';
-import { Alert, Loader } from './sub-components';
+import { Alert, Popup } from './sub-components';
+import { Loader, Triangle } from './sub-components/Loaders';
 import { Auth } from './utilities/firebase';
 
 // const firestore = firebase.firestore();
@@ -29,19 +30,25 @@ class App extends Component {
   }
   render() {
     const { mounted } = this.state;
-    const { alertStatus, alertTemplate } = this.props;
-    return mounted ? (
+    const { alertStatus, alertTemplate, popupCoords, popupStatus, popupTemplate } = this.props;
+    return (
       <div>
         <Alert
           open={alertStatus}
           template={alertTemplate}
-          onClickCatcher={() => this.props.alertInteraction(false)}
+          onClickCatcher={() => this.props.appInteraction('alert', false)}
+
+        />
+         <Popup
+          open={popupStatus}
+          template={popupTemplate}
+          popupCoords={popupCoords}
+          onClickCatcher={() => this.props.appInteraction('popup', false)}
         />
         <Navbar />
         <Routes />
+        <Triangle transitioning={mounted} />
       </div>
-    ) : (
-      <Loader />
     );
   }
 }
@@ -49,7 +56,10 @@ class App extends Component {
 const mapStateToProps = state => ({
   menu: state,
   alertTemplate: state.util.alertTemplate,
-  alertStatus: state.util.alertStatus
+  alertStatus: state.util.alertStatus,
+  popupTemplate: state.util.popupTemplate,
+  popupStatus: state.util.popupStatus,
+  popupCoords: state.util.popupCoords,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -57,7 +67,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(alertInteraction(status, template)),
   auth: (user, inSession) => dispatch(auth(user, inSession))
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

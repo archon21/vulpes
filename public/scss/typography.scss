@@ -101,3 +101,9 @@ p {
   margin: 20px;
   font-family: $font-secondary;
 }
+
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

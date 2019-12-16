@@ -1,5 +1,5 @@
 export { default as NotFound } from './NotFound';
-export { default as Loader } from './Loader';
+export { default as Loader } from './Loaders/Loader';
 export {default as Alert} from './Alert'
 export {default as Textfield} from './Textfield'
 export {default as ShareButtons} from './ShareButtons'
@@ -8,5 +8,5 @@ export {default as Carousel} from './Carousel'
 export {default as Fab} from './Fab'
 export {default as List} from './List'
 export {default as Table} from './Table'
-
+export {default as Popup} from './Popup'
 export {default as HoldingCard} from './HoldingCard'

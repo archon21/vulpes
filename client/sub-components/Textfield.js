@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import TextField from '@material-ui/core/TextField';
 
 class Textfield extends Component {
   state = {
@@ -10,34 +11,33 @@ class Textfield extends Component {
     const { value, name } = event.target;
     this.setState({ value: value });
     this.props.dataHook({ name, value });
-
   };
 
   removeError = () => {
-    this.setState({error: false})
-  }
+    this.setState({ error: false });
+  };
   render() {
-
-    const {value, maxWidth, name, required, type, placeholder, error} = this.props;
+    const {
+      value,
+      name,
+      required,
+      type,
+      placeholder,
+      handleChange,
+      variant,
+      className,
+      error
+    } = this.props;
     return (
-      <div className={`flex column align-center textfield-wrapper w-100 ${maxWidth}`}>
-        <input
-          name={name}
-          onChange={this.handleChange}
-          // onClick={error && this.removeError}
-          className="textfield w-90"
-          value={value}
-          type={type ? type : name}
-
-          required={required}
-          placeholder={placeholder ? placeholder : name}
-        />
-        {error && (
-          <div className="card textfield__message">
-            <p className="body-1 color-primary">This is a required field!</p>
-          </div>
-        ) }
-      </div>
+      <TextField
+        name={name}
+        placeholder={placeholder ? placeholder : ''}
+        value={value}
+        required={!!required}
+        onChange={handleChange}
+        variant={variant ? variant : 'outlined'}
+        className={className ? className : ''}
+      />
     );
   }
 }

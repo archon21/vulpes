@@ -51,6 +51,22 @@
   0 1px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
+.button-icon {
+  background: transparent;
+}
+
+.button-text {
+  background: transparent;
+  border-radius: 3px;
+  transform: all 350ms;
+  padding: 5px 0;
+  margin: 5px 0;
+}
+
+.button-text:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+
 .large {
   width: 300px;
   height: 100px;

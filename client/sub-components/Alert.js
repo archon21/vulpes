@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { alertInteraction } from '../store';
+import { appInteraction } from '../store';
 
 class Alert extends Component {
   state = {
-    open: this.props.open,
+    open: this.props.open
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.open !== nextProps.open) return { open: nextProps.open };
     else return {};
+  }
+
+  handleClose = () => {
+    this.props.appInteraction()
+    this.setState({open: false})
   }
 
   // componentDidUpdate(prevProps) {
@@ -30,11 +35,8 @@ class Alert extends Component {
     const { template, customStyle } = this.props;
     return open ? (
       <div className="alert flex align-center justify-center">
-        <div className="alert__catcher" onClick={this.props.alertInteraction} />
-        <div
-          style={customStyle && customStyle}
-          className="alert__container"
-        >
+        <div className="alert__catcher" onClick={this.handleClose}  />
+        <div style={customStyle && customStyle} onClick={this.handleClose} className="alert__container">
           {template && template}
         </div>
       </div>
@@ -45,10 +47,7 @@ class Alert extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  alertInteraction: () => dispatch(alertInteraction(false))
+  appInteraction: () => dispatch(appInteraction('alert', false))
 });
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Alert);
+export default connect(null, mapDispatchToProps)(Alert);

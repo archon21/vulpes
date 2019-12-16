@@ -37,41 +37,47 @@ class Navbar extends Component {
       <nav
         id="nav-h"
         className={`${!open &&
-          'open'} flex column black align-center justify-center w-100`}
+          'open'} flex row black align-center align-center justify-center w-100`}
       >
-        <div className="nav-h__upper flex row align-center" />
-        <NavHButton open={open} toggleNavH={this.toggleNavH} />
-
-        <div
-          className={` ${!open &&
-            'open'} nav-h__lower flex  wrap align-center justify-center nav-h__links `}
+        <Link
+          className={`headline-6 nav__link color-white p-5px ${selectedLink ===
+            'downloader' && 'selected'}`}
+          to={{ pathname: '/' }}
+          onClick={() => this.selectLink('about')}
         >
-          <Link
-            className={`headline-6 nav__link color-white p-5px ${selectedLink ===
+          <i
+            className={`material-icons color-white p-5px ${selectedLink ===
               'downloader' && 'selected'}`}
-            to={{ pathname: '/' }}
-            onClick={() => this.selectLink('about')}
           >
-            DOWNLOADER
-          </Link>
-          <Link
-            className={`headline-6 nav__link color-white p-5px ${selectedLink ===
-              'player' && 'selected'}`}
-            to={{ pathname: '/player' }}
-            onClick={() => this.selectLink('player')}
+            cloud_download
+          </i>
+        </Link>
+        <Link
+          className={`headline-6 nav__link color-white p-5px ${selectedLink ===
+            'library' && 'selected'}`}
+          to={{ pathname: '/library' }}
+          onClick={() => this.selectLink('library')}
+        >
+          <i
+            className={`material-icons color-white p-5px ${selectedLink ===
+              'library' && 'selected'}`}
           >
-            PLAYER
-          </Link>
-          <Link
-            className={`headline-6 nav__link color-white p-5px ${selectedLink ===
+            library_music
+          </i>
+        </Link>
+        <Link
+          className={`headline-6 nav__link color-white p-5px ${selectedLink ===
+            'uploader' && 'selected'}`}
+          to={{ pathname: '/uploader' }}
+          onClick={() => this.selectLink('uploader')}
+        >
+          <i
+            className={`material-icons color-white p-5px ${selectedLink ===
               'uploader' && 'selected'}`}
-            to={{ pathname: '/uploader' }}
-            onClick={() => this.selectLink('uploader')}
           >
-            UPLOADER
-          </Link>
-        </div>
-
+            cloud_upload
+          </i>
+        </Link>
       </nav>
     );
   }
@@ -82,9 +88,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(alertInteraction(status, template))
 });
 
-export default withRouter(
-  connect(
-    null,
-    mapDispatchToProps
-  )(Navbar)
-);
+export default withRouter(connect(null, mapDispatchToProps)(Navbar));
