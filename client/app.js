@@ -15,6 +15,13 @@ class App extends Component {
     mounted: false
   };
   async componentDidMount() {
+    if (!('serviceWorker' in navigator)) {
+      console.log('Service workers are not supported.');
+    }
+    const url = window.location.origin+'/serviceworker/register-sw.js'
+    console.log(url)
+    const registration = await navigator.serviceWorker.register(url);
+    console.log('SW registered.' + registration.scope);
     this.unsubscribe = await Auth.onAuthStateChanged(async user => {
       if (user) {
         await this.props.auth(user, true);
@@ -30,16 +37,21 @@ class App extends Component {
   }
   render() {
     const { mounted } = this.state;
-    const { alertStatus, alertTemplate, popupCoords, popupStatus, popupTemplate } = this.props;
+    const {
+      alertStatus,
+      alertTemplate,
+      popupCoords,
+      popupStatus,
+      popupTemplate
+    } = this.props;
     return (
       <div>
         <Alert
           open={alertStatus}
           template={alertTemplate}
           onClickCatcher={() => this.props.appInteraction('alert', false)}
-
         />
-         <Popup
+        <Popup
           open={popupStatus}
           template={popupTemplate}
           popupCoords={popupCoords}
@@ -59,7 +71,7 @@ const mapStateToProps = state => ({
   alertStatus: state.util.alertStatus,
   popupTemplate: state.util.popupTemplate,
   popupStatus: state.util.popupStatus,
-  popupCoords: state.util.popupCoords,
+  popupCoords: state.util.popupCoords
 });
 
 const mapDispatchToProps = dispatch => ({

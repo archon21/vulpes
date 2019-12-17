@@ -1,4 +1,44 @@
 @import './color.scss';
+@import './typography.scss';
+%textfield {
+  font-family: $font-secondary;
+  -webkit-writing-mode: horizontal-tb !important;
+  text-rendering: auto;
+  color: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: start;
+  -webkit-appearance: textfield;
+  background-color: white;
+  -webkit-rtl-ordering: logical;
+  cursor: text;
+  margin: 0em;
+  font: 400 11px system-ui;
+  padding: 1px;
+  border-width: 2px;
+  border-style: inset;
+  border-color: initial;
+  border-image: initial;
+  padding-top: 18.5px;
+  padding-right: 14px;
+  padding-bottom: 18.5px;
+  padding-left: 14px;
+  min-width: 325px;
+  border-radius: 5px;
+}
+
+.textfield {
+  @extend %textfield;
+}
+
+.textfield:focus {
+  outline: 1px solid $color-primary;
+  transition: all 0.4s;
+}
 
 .num-input {
   border-radius: 5px;
@@ -14,29 +54,9 @@
   outline: none;
 }
 
-.textfield:focus {
-  outline: 1px solid $color-primary;
-  padding: 25px;
-  transition: all 0.4s;
-}
-
 .textfield-wrapper {
   position: relative;
   margin: 20px 0;
-}
-
-.textfield {
-  font-family: 'Oxygen', sans-serif;
-  font-size: 20px;
-  height: 60px;
-  color: $color-primary;
-  border: none;
-  padding: 15px;
-  background: transparent;
-  transition: all 0.4s;
-
-  min-width: 325px;
-  border: 1px solid $color-primary;
 }
 
 .textfield__message {

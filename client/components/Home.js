@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 
 import { storage } from '../utilities/firebase';
 import { WindoW, Flex, Divider } from '../sub-components/containers';
-import { Textfield, Fab } from '../sub-components';
+import { Textfield, Fab, Button } from '../sub-components';
 import { getSong, getQuery, addTempSong } from '../store';
 
 class Home extends Component {
   state = {
     items: [],
-    query: ''
+    query: '',
+    requesting: false
   };
 
   handleChange = event => {
@@ -34,22 +35,25 @@ class Home extends Component {
 
   handleQuery = async event => {
     event.preventDefault();
+    this.setState({ requesting: true });
     const { query } = this.state;
     await this.props.getQuery(query);
     const { items } = this.props.query;
-    this.setState({ items });
+    this.setState({ items, requesting: false });
   };
 
   handleSongDownload = async (title, url, artist, thumbnail) => {
+    this.setState({ requesting: true });
     const { user } = this.props;
     await this.props.getSong(title, url, user, artist, thumbnail);
     const { songToAdd } = this.props;
     this.props.addTempSong(songToAdd.id, songToAdd.song);
+    this.setState({ requesting: false });
   };
 
   render() {
     const { state } = this;
-    const { query, items } = state;
+    const { query, items, requesting } = state;
 
     return (
       <div style={{ overflowX: 'hidden' }} className="flex column align-center">
@@ -81,73 +85,67 @@ class Home extends Component {
           <h6 className="headline-6">Take Whats Yours</h6>
         </Divider>
         <WindoW>
-          {items.length > 0 ? (
-            <div>
-              <h3 className="headline-3">{query}</h3>
-              {items.map(item => {
-                const {
-                  thumbnail,
-                  title,
-                  description,
-                  duration,
-                  views,
-                  link,
-                  author
-                } = item;
-                console.log(author.name);
-                return (
-                  <div
-                    onClick={() =>
-                      this.handleSongDownload(
-                        title,
-                        link,
-                        author.name,
-                        thumbnail
-                      )
-                    }
-                    className="flex row align-center"
-                    key={title}
-                  >
-                    <img src={thumbnail} className="" />
-                    <div className="flex column align-center" />
-                    <span className="headline-5">{title}</span>
-                    <span className="headline-5">{description}</span>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <form
-              className="flex column align-center"
-              // onDownloadComplete={this.onDownloadComplete}
-              onSubmit={this.handleQuery}
-            >
-              {/* {textfields.map((field, index) => {
-              return ( */}
-              <input
-                name="query"
-                value={query}
-                onChange={this.handleChange}
-                className=""
-                style={{ zIndex: 10 }}
-              />
-              {/* );
-            })} */}
-              <Flex row>
-                <button type="submit" className="button color-tirciary">
-                  Download
-                </button>
-                {/*
-              <button
-                type="button"
-                onClick={this.addTextfield}
-                className="button color-tirciary"
+          <form
+            onSubmit={
+              !requesting ? this.handleQuery : event => event.preventDefault()
+            }
+            className="flex row align-center justify-center wrap"
+            // onDownloadComplete={this.onDownloadComplete}
+          >
+            <Textfield
+              name="query"
+              value={query}
+              handleChange={this.handleChange}
+              placeholder="Youtube search"
+              required
+            ></Textfield>
+
+            <Button
+              type="submit"
+              text=" Search"
+              variant={`button--small ${requesting &&
+                'button--disabled'} color-tirciary`}
+            ></Button>
+          </form>
+          {items.map(item => {
+            const {
+              thumbnail,
+              title,
+              description,
+              duration,
+              views,
+              link,
+              author
+            } = item;
+
+            return (
+              <div
+                className="downloader__link flex column align-center wrap w-90"
+                key={title}
               >
-                Add Another Field
-              </button> */}
-              </Flex>
-            </form>
-          )}
+                <div className="flex row wrap align-center justify-center wrap">
+                  <img src={thumbnail} className="" />
+                  <div className="flex column w-60 minw-325px">
+                    <span className="headline-5">{title}</span>
+                    <span className="body-1 downloader__link__description ">
+                      {description}
+                    </span>
+                  </div>
+                </div>
+
+                <Button
+                  type="button"
+                  text=" Download"
+                  onClick={() =>
+                    this.handleSongDownload(title, link, author.name, thumbnail)
+                  }
+                  variant={`button--small ${requesting &&
+                    'button--disabled'} color-tirciary`}
+                ></Button>
+                <div className="downloader__link__divider w-90"></div>
+              </div>
+            );
+          })}
         </WindoW>
       </div>
     );

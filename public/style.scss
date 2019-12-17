@@ -17,6 +17,7 @@
 @import './scss/skeleton.scss';
 @import './scss/normalize.scss';
 @import './scss/popup';
+@import './scss/menu.scss';
 
 html {
   scroll-behavior: smooth;
@@ -389,6 +390,17 @@ button:focus {
   transform: rotate(180deg) translateX(200%);
 }
 
+.downloader__link {
+  border-radius: 5px;
+  margin: 20px 0;
+  transition: all 300ms;
+}
+
+.downloader__link__divider {
+  border-bottom: 1px solid;
+  margin: 10px 0;
+}
+
 @media only screen and (max-width: 1100px) {
   .holding__first {
     height: 50vh;
@@ -420,6 +432,9 @@ button:focus {
     position: relative;
     text-align: center;
     margin-top: 0;
+  }
+  .downloader__link__description {
+    display: none;
   }
   #footer-container__inner {
     flex-direction: column;
