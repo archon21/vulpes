@@ -7,6 +7,7 @@ import { alertInteraction, auth } from './store';
 import { Alert, Popup } from './sub-components';
 import { Loader, Triangle } from './sub-components/Loaders';
 import { Auth } from './utilities/firebase';
+import { Player } from './unique';
 
 // const firestore = firebase.firestore();
 
@@ -20,7 +21,7 @@ class App extends Component {
     }
     const url = window.location.origin+'/serviceworker/register-sw.js'
     console.log(url)
-    const registration = await navigator.serviceWorker.register(url);
+    const registration = await navigator.serviceWorker.register(url, {scope: '/'});
     console.log('SW registered.' + registration.scope);
     this.unsubscribe = await Auth.onAuthStateChanged(async user => {
       if (user) {
@@ -59,6 +60,7 @@ class App extends Component {
         />
         <Navbar />
         <Routes />
+        <Player/>
         <Triangle transitioning={mounted} />
       </div>
     );

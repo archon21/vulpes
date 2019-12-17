@@ -346,6 +346,28 @@ button:focus {
   background: transparent;
 }
 
+.player__controls__slider[type='range'] {
+  position: absolute;
+  top: -5px;
+  width: 100vw;
+  -webkit-appearance: none;
+  border-radius: 8px;
+  height: 5px;
+  background-color: red;
+  transition: all 200ms ease-in-out;
+  outline: none !important;
+  border-radius: 0px;
+}
+.player__controls__slider[type='range']:hover {
+  cursor: pointer;
+  height: 10px;
+}
+
+.player__controls__slider.minimized[type='range'] {
+  position: fixed;
+  top: -8px;
+  z-index: 10;
+}
 .loader__triangle {
   position: absolute;
   top: 0;
