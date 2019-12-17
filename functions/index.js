@@ -9,15 +9,16 @@ const uuid = require('uuid/v1');
 var FFmpeg = require('fluent-ffmpeg');
 const NodeID3 = require('node-id3');
 const axios = require('axios');
+const os = require('os');
 
 const adminConfig = JSON.parse(process.env.FIREBASE_CONFIG);
 adminConfig.credential = admin.credential.cert(
-  require('../vulpes-26185-firebase-adminsdk-p07x5-d5f7b629c6.json')
+  require('./vulpes-26185-firebase-adminsdk-p07x5-d5f7b629c6.json')
 );
 (adminConfig.storageBucket = 'vulpes-26185.appspot.com'),
   (adminConfig.databaseURL = 'https://vulpes-26185.firebaseio.com');
 admin.initializeApp(adminConfig);
-console.log('STARTED');
+// console.log('STARTED');
 
 const bucket = admin.storage().bucket();
 const db = admin.firestore();
@@ -30,17 +31,11 @@ function getBase64(url) {
     .then(response => Buffer.from(response.data, 'binary').toString('base64'));
 }
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  response.send('Hello from Firebase!');
-});
-
 const downloadSongFn = async (req, res) => {
   const { url, title, userId, artist, thumbnail } = req.body;
-
+  const tmp = os.tmpdir();
+  // console.log('IN');
   // var destDir = req.query.destDir;
-
-  console.log('IN', title, url, userId, artist);
-
   try {
     // ytdl.getInfo(url, (err, info) => {
     //   let formatToDownload;
@@ -53,21 +48,25 @@ const downloadSongFn = async (req, res) => {
     //       return true;
     //     }
     //   });
-    const fileRef = path.join(__dirname, `${title}.mp3`);
+    const fileRef = path.join(tmp, `${title}.mp3`);
     const writeStream = fs.createWriteStream(fileRef);
     const ffmpeg = new FFmpeg()
       .input(ytdl(url))
       .format('mp3')
       .saveToFile(writeStream);
 
-    ffmpeg.on('progress', e => console.log(e));
+    // ffmpeg.on('progress', e => console.log(e));
     ffmpeg.on('end', async () => {
-      const tempImagePath = path.resolve(__dirname, 'temp.jpeg');
+      // console.log(fs.statSync(fileRef));
+      const tempImagePath = path.resolve(tmp, 'temp.jpeg');
       const imageWriteStream = fs.createWriteStream(tempImagePath);
-      const response = await axios.get(thumbnail, { responseType: 'stream' });
+      const thumbnailArr = thumbnail.split('hqdefault.jpg');
+      const hqThumbnail =
+        thumbnailArr[0] + 'maxresdefault.jpg' + thumbnailArr[1];
+      const response = await axios.get(hqThumbnail, { responseType: 'stream' });
       response.data.pipe(imageWriteStream);
       // const imageType = headers['content-type'].split('/');
-      // console.log(imageType[1], headers);
+
       imageWriteStream.on('finish', async () => {
         let tags = {
           title,
@@ -81,9 +80,6 @@ const downloadSongFn = async (req, res) => {
           destination: `users/${userId}/${title}`,
           contentType: 'audio/mpeg'
         });
-
-        console.log(storageRef);
-
         const prefix = 'https://firebasestorage.googleapis.com/v0/';
         const postfix = '?alt=media&token=ee6b8cba-8fb1-40d0-a13b-13d3d64443b5';
         const gStorageRef = storageRef[0].metadata.selfLink;

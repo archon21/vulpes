@@ -80,9 +80,11 @@ export const sendMessage = message => dispatch => {
 export const getQuery = query => async dispatch => {
   const formatedQuery = query.split(' ').join('-');
   try {
+    const local = `http://localhost:5001/vulpes-26185/us-central1/querySongs`;
+    const deployedURL =
+      'https://us-central1-vulpes-26185.cloudfunctions.net/querySongs';
     const { data } = await axios.post(
-      `http://localhost:5001/vulpes-26185/us-central1/querySongs`,
-
+      process.env.NODE_ENV === 'development' ? local : deployedURL,
       { query: formatedQuery }
     );
     console.log(data);
@@ -104,8 +106,13 @@ export const getSong = (
   try {
     console.log(artist);
     const titleArr = title.split('-');
+    const local = `http://localhost:5001/vulpes-26185/us-central1/downloadSong`;
+    const deployedURL =
+      'https://us-central1-vulpes-26185.cloudfunctions.net/downloadSong';
+
     const { data } = await axios.post(
-      `http://localhost:5001/vulpes-26185/us-central1/downloadSong`,
+      process.env.NODE_ENV === 'development' ? local : deployedURL,
+
       {
         url,
         title,
@@ -115,8 +122,8 @@ export const getSong = (
       }
     );
 
-    console.log(data)
-    const {id, song} = data
+    console.log(data);
+    const { id, song } = data;
 
     // const songsToRender = await Promise.all(promiseArr);
     // console.log(songsToRender);

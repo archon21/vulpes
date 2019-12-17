@@ -19,8 +19,7 @@ module.exports = {
     filename: '[name].js',
     path: path.join(__dirname, 'public', 'js'),
     chunkFilename: '[id].[chunkhash].js',
-    library: '[name]',
-    libraryTarget: 'var'
+
   },
 
   module: {

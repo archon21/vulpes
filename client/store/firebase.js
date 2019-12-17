@@ -5,7 +5,7 @@ import uuid from 'uuid/v1';
 import { spotify } from '../../secrets';
 const { spotifyID, spotifySecret } = spotify;
 
-console.log(spotifySecret, spotifyID);
+// console.log(spotifySecret, spotifyID);
 
 const getSongInfo = async (file, artist, title, location) => {
   const fileNameArr = file.name.split('-');
