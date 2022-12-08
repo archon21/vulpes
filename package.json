@@ -24,7 +24,7 @@
     "copy-webpack-plugin": "^4.6.0",
     "cors": "^2.8.5",
     "css-loader": "^2.1.0",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "firebase": "^6.4.0",
     "history": "^4.7.2",
     "i": "^0.3.6",
